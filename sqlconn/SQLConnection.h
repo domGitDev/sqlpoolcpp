@@ -1,5 +1,5 @@
-#ifndef DATA_MANAGER_H__ // #include guards
-#define DATA_MANAGER_H__
+#ifndef SQL_CONNECTION_H__ // #include guards
+#define SQL_CONNECTION_H__
 
 /* all necessary functionalities for mysql interaction */
 
