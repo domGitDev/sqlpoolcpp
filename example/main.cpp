@@ -77,7 +77,7 @@ int main(int argc, char** argv)
 	
 	std::string programDir = GetProgramDir(argv);
 
-    ssdbfile << programDir << "/dbcredentials.txt";
+    ssdbfile << programDir << "/config.txt";
     auto dbconfigs = ReadConfigFile(ssdbfile.str());
 
 	auto hit = dbconfigs.find("dbhost");
@@ -85,9 +85,10 @@ int main(int argc, char** argv)
 	auto uit = dbconfigs.find("user");
 	auto pwdit = dbconfigs.find("password");
 	auto dit = dbconfigs.find("database");
+    auto tbit = dbconfigs.find("table");
 
-	if(pit == dbconfigs.end() || hit == dbconfigs.end() || 
-		uit == dbconfigs.end() || pwdit == dbconfigs.end() || dit == dbconfigs.end())
+	if(pit == dbconfigs.end() || hit == dbconfigs.end() || uit == dbconfigs.end() || 
+        pwdit == dbconfigs.end() || dit == dbconfigs.end() || tbit == dbconfigs.end())
 	{
 		std::cerr << "Could not find server/port in config!";
 		exit(EXIT_FAILURE);
@@ -95,6 +96,7 @@ int main(int argc, char** argv)
 
     int port = std::stoi(dbconfigs.at("port"));
     std::string database = dbconfigs.at("database");
+    std::string table = dbconfigs.at("table");
 
     size_t NUM_CONNS = 3;
     connPool.reset(new ConnectionPool(
@@ -114,11 +116,11 @@ int main(int argc, char** argv)
     while(running) // Crtl + C to stop
     {
         auto sqlPtr = connPool->GetConnecion();
-        std::thread([sqlPtr]()
+        std::thread([sqlPtr, table]()
         {
             std::string error;
             std::stringstream ssquery;
-            ssquery << "select * from " << sqlPtr->getDatabase() <<".BTCUSDT;";
+            ssquery << "select * from " << sqlPtr->getDatabase() <<".`" << table << "`";
             
             auto results = sqlPtr->selectQuery(ssquery.str(), error);
             if(error.length() > 0)

@@ -3,4 +3,5 @@ port 3306
 user root
 password YOUR_PASSWORD
 database DATABASE_NAME
+table TABLE_NAME
 connections 2
