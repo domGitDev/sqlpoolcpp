@@ -50,7 +50,9 @@ connPool->ReleaseConnecion(sqlPtr);
 - on command line run:
 
 ``` bash 
-compile.sh
+cd example
+
+./compile.sh
 
 ./multiConn
 
