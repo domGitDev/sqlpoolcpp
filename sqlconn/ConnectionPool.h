@@ -148,7 +148,10 @@ bool ConnectionPool::ReleaseConnecion(std::shared_ptr<SQLConnection> sqlPtr)
         _pool_mutex.lock();
         auto it = Indexes.find(sqlPtr->getPoolId());
         if(it == Indexes.end())
+        {
             connectionQueue.enqueue(sqlPtr->getPoolId());
+            Indexes.insert(sqlPtr->getPoolId());
+        }
         _pool_mutex.unlock();
         return true;
     }
