@@ -17,26 +17,31 @@
 
 # INCLUDE IN PROJECT
 
-# #########################################
+``` C++
 
 #include "./sqlconn/ConnectionPool.h"
 
-std::shared_ptr<ConnectionPool> connPool;
-
 std::string host = "127.0.0.1";
-
 std::string username = "root";
-
 std::string password = "password";
-
 std::string database = "mydb";
-
 size_t NUM_CONNS = 3;
 
+std::shared_ptr<ConnectionPool> connPool;
 connPool.reset(new ConnectionPool(
                 host, port, username, password, database, NUM_CONNS));
 
-# #############################################
+// get connection
+auto sqlPtr = connPool->GetConnecion();
+
+// Use connection
+
+
+
+// release connection
+connPool->ReleaseConnecion(sqlPtr);
+
+```
 
 # RUN EXAMPLE
 
