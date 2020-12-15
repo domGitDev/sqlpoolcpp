@@ -22,9 +22,13 @@
 std::shared_ptr<ConnectionPool> connPool;
 
 std::string host = "127.0.0.1";
+
 std::string username = "root";
+
 std::string password = "password";
+
 std::string database = "mydb";
+
 size_t NUM_CONNS = 3;
 
 connPool.reset(new ConnectionPool(
