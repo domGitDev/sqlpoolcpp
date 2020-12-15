@@ -15,8 +15,9 @@
 
 - yum -y install mysql-community-libs mysql-devel
 
-# INCLUDE IN YOUR PROJECT
+# INCLUDE IN PROJECT
 
+# #########################################
 #include "./sqlconn/ConnectionPool.h"
 
 std::shared_ptr<ConnectionPool> connPool;
@@ -34,6 +35,7 @@ size_t NUM_CONNS = 3;
 connPool.reset(new ConnectionPool(
                 host, port, username, password, database, NUM_CONNS));
 
+# #############################################
 
 # RUN EXAMPLE
 
