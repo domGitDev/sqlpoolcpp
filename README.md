@@ -47,11 +47,14 @@ connPool->ReleaseConnecion(sqlPtr);
 
 - update database credentials by editing dbcredentials.txt 
 
-- on command run:
+- on command line run:
 
+``` bash 
 compile.sh
 
 ./multiConn
+
+```
 
 - press Ctrl+C to exit
 
