@@ -1,11 +1,10 @@
 #ifndef CONNECTION_POOL_H__ // #include guards
 #define CONNECTION_POOL_H__
 
-#include <set>
 #include <vector>
 #include <map>
-#include <mutex>
 #include <chrono>
+#include <unordered_set>
 
 #include "AtomicLock.h"
 #include "SQLConnection.h"
@@ -32,7 +31,7 @@ public:
 private:
     AtomicLock _pool_mutex;
     bool hasActiveConnections;
-    std::set<int> Indexes;
+    std::unordered_set<int> Indexes;
     moodycamel::ReaderWriterQueue<int> connectionQueue;
     std::vector<std::shared_ptr<SQLConnection>> mySqlPtrList;
 };
@@ -120,9 +119,11 @@ std::shared_ptr<SQLConnection> ConnectionPool::GetConnecion(unsigned int timeout
         success = connectionQueue.try_dequeue(ind);
         if(success && ind < mySqlPtrList.size())
         {
+            _pool_mutex.lock();
             auto it = Indexes.find(ind);
             if(it != Indexes.end())
                 Indexes.erase(ind);
+            _pool_mutex.unlock();
             return mySqlPtrList[ind];
         }
 
@@ -176,7 +177,7 @@ void ConnectionPool::ClosePoolConnections()
     _pool_mutex.lock();
     while(connectionQueue.peek() != nullptr)
         connectionQueue.pop();
-    Indexes = std::set<int>();
+    Indexes = std::unordered_set<int>();
     _pool_mutex.unlock();
 }
 
