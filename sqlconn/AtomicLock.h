@@ -3,8 +3,11 @@
 
 #include "atomicops.h"
 
-struct AtomicLock
+class AtomicLock
 {
+public:
+    AtomicLock() : flag(ATOMIC_FLAG_INIT) {}
+
     void lock() noexcept
     {
         while(flag.test_and_set());
@@ -16,7 +19,7 @@ struct AtomicLock
     }
 
 private:
-    std::atomic_flag flag = ATOMIC_FLAG_INIT;
+    std::atomic_flag flag;
 };
 
 #endif
