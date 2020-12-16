@@ -45,7 +45,7 @@ connPool->ReleaseConnecion(sqlPtr);
 
 # RUN EXAMPLE
 
-- update database credentials by editing dbcredentials.txt 
+- update database credentials by editing config.txt 
 
 - on command line run:
 
