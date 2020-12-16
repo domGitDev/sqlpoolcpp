@@ -7,6 +7,7 @@
 #include <mutex>
 #include <chrono>
 
+#include "AtomicLock.h"
 #include "SQLConnection.h"
 #include "readerwriterqueue.h"
 
@@ -29,7 +30,7 @@ public:
     bool HasActiveConnections();
 
 private:
-    std::mutex _pool_mutex;
+    AtomicLock _pool_mutex;
     bool hasActiveConnections;
     std::set<int> Indexes;
     moodycamel::ReaderWriterQueue<int> connectionQueue;
