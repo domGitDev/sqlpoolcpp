@@ -10,6 +10,8 @@
 
 # ##########################################################
 
+![ARCHITECTURE](Pool_Architecture.png)
+
 
 # Install Dependencies CentOS
 
